@@ -2,8 +2,6 @@ import os
 import json
 import requests
 
-from pandas import DataFrame
-
 api_token = os.environ['DATAROBOT_API_TOKEN']
 username = os.environ['DATAROBOT_API_USERNAME']
 datarobot_key = os.environ['DATAROBOT_API_KEY']
@@ -17,7 +15,7 @@ headers = {
   'datarobot-key': datarobot_key
 }
 
-data = DataFrame([
+data = [
   {
     "horsepower": 130,
     "weight": 3504,
@@ -35,12 +33,12 @@ data = DataFrame([
     "origin": 1,
     "acceleration": 11.5
   }
-])
+]
 
-data_json = data.to_json(orient='records')
+data_json = json.dumps(data)
 
 print("DataRobot Request")
-print(json.dumps(json.loads(data_json), indent=2))
+print(json.dumps(data, indent=2))
 print()
 
 response = requests.post(url, auth=auth, headers=headers, data=data_json)
